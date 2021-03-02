@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-function Header() {
+function Header({ user, signOut }) {
+
     return (
         <Container>
             <Main>
@@ -17,9 +19,17 @@ function Header() {
                 <HelpOutlineIcon />
             </Main>
             <UserContainer>
-                <Name>Marco</Name>
+                <Dropdown>
+                    <Wrapper>
+                        <Name>{user.name}</Name>
+                        <ExpandMoreIcon />
+                        <DropdownContent className="dropdown-content">
+                            <p onClick={signOut}>Log out</p>
+                        </DropdownContent>
+                    </Wrapper>
+                </Dropdown>
                 <UserImage>
-                    <img src="https://i.imgur.com/6VBx3io.png" alt="image" />
+                    <img src={user.photo ? user.photo : "https://i.imgur/6VBx3io.png"} alt="user" />
                 </UserImage>
             </UserContainer>
         </Container>
@@ -74,16 +84,55 @@ const UserContainer = styled.div`
 ` 
 
 const Name = styled.div`
-    padding-right: 16px;
+    cursor: pointer;
 ` 
+
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+`
 
 const UserImage = styled.div`
     width: 28px;
     height: 28px;
     border: 2px solid white;
     border-radius: 3px;
+    cursor: pointer;
 
     img {
         width: 100%;
+    }
+`
+
+const Dropdown = styled.div`
+    position: relative;
+    display: inline-block;
+
+    &:hover .dropdown-content {
+        display: block;
+    }
+
+    .MuiSvgIcon-root {
+        margin-left: 3px;
+        margin-right: 10px;
+        margin-top: 4px;
+        font-size: 20px;
+    }
+`
+
+const DropdownContent = styled.div`
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #350d36;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+
+    p {
+        color: white;
+        cursor: pointer;
     }
 `
